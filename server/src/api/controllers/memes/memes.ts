@@ -8,7 +8,7 @@ interface ExtendedPostRequest extends Request {
 
 const GET = async (req: Request, res: Response) => {
   try {
-    const { MemesModel } = await import("../../models");
+    const { MemesModel } = await import("api/models");
     const memes = await MemesModel.find().sort({ createdAt: -1 }).limit(9).select("_id description").lean();
     return res.status(200).json(memes);
   } catch (error: any) {
@@ -21,7 +21,7 @@ const POST = async (req: ExtendedPostRequest, res: Response) => {
     const { description } = req.body;
     if (!description) return res.status(400).json({ message: "All fields are required!" });
 
-    const { MemesModel } = await import("../../models");
+    const { MemesModel } = await import("api/models");
     const meme = await MemesModel.create({ description, userId: req.userId });
     
     return res.status(200).json({ _id: meme._id });

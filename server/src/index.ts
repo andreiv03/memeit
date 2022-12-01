@@ -2,9 +2,9 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 
-import { router } from "./api/routes";
-import { connectToMongoDB } from "./connections/mongoose";
-import { constants } from "./utils/constants";
+import { router } from "api/routes";
+import { connectToMongoDB } from "connections/mongoose";
+import { constants } from "utils/constants";
 
 const server = express();
 server.use(cookieParser());

@@ -11,7 +11,7 @@ const GET = async (req: Request, res: Response) => {
     const { _id } = req.params;
     if (!_id) return res.status(400).json({ message: "Something went wrong!" });
 
-    const { MemesModel } = await import("../../models");
+    const { MemesModel } = await import("api/models");
     const meme = await MemesModel.findById(_id).select("_id description userId").lean();
     if (!meme) return res.status(404).json({ message: "Meme not found!" });
 
@@ -29,7 +29,7 @@ const PATCH = async (req: ExtendedPatchRequest, res: Response) => {
     const { description } = req.body;
     if (!description) return res.status(400).json({ message: "All fields are required!" });
 
-    const { MemesModel } = await import("../../models");
+    const { MemesModel } = await import("api/models");
     await MemesModel.findByIdAndUpdate(_id, { description });
 
     return res.status(200).json({ _id });
@@ -43,7 +43,7 @@ const DELETE = async (req: Request, res: Response) => {
     const { _id } = req.params;
     if (!_id) return res.status(400).json({ message: "Something went wrong!" });
 
-    const { MemesModel } = await import("../../models");
+    const { MemesModel } = await import("api/models");
     await MemesModel.findByIdAndDelete(_id);
 
     return res.status(200).json({ _id });

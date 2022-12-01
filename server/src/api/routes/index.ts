@@ -1,7 +1,7 @@
 import express from "express";
 
-import { authRouter } from "./auth.routes";
-import { memesRouter } from "./memes.routes";
+import { authRouter } from "api/routes/auth.routes";
+import { memesRouter } from "api/routes/memes.routes";
 
 export const router = express.Router();
 router.use("/api/auth", authRouter);

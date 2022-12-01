@@ -15,14 +15,14 @@ const POST = async (req: ExtendedPostRequest, res: Response) => {
     if (!email || !password || !username)
       return res.status(400).json({ message: "All fields are required!" });
 
-    const { UsersModel } = await import("../../models");
+    const { UsersModel } = await import("api/models");
     const isEmailRegistered = await UsersModel.exists({ email });
     if (isEmailRegistered) return res.status(400).json({ message: "Email address already registered!" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await UsersModel.create({ email, password: hashedPassword, username });
     
-    const { signToken } = await import("../../../utils/token");
+    const { signToken } = await import("utils/token");
     const accessToken = await signToken(user._id, "10m");
     const refreshToken = await signToken(user._id, "7d");
 

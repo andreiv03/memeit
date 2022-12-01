@@ -5,7 +5,7 @@ const GET = async (req: Request, res: Response) => {
     const refreshTokenCookie = req.cookies.refreshToken;
     if (!refreshTokenCookie) return res.status(401).json({ message: "Authentication required!" });
 
-    const { signToken, verifyToken } = await import("../../../utils/token");
+    const { signToken, verifyToken } = await import("utils/token");
     const decoded = await verifyToken(refreshTokenCookie);
     if (!decoded) return res.status(401).json({ message: "Authentication required!" });
 

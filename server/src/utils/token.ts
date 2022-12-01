@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { constants } from "./constants";
+import { constants } from "utils/constants";
 
 export const signToken = (subject: any, expiresIn: string): Promise<string> => {
   return new Promise((resolve, reject) => {

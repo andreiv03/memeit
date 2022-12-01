@@ -1,7 +1,7 @@
 import express from "express";
 
-import { memeController, memesController } from "../controllers/memes";
-import { authorization } from "../middleware";
+import { memeController, memesController } from "api/controllers/memes";
+import { authorization } from "api/middleware";
 
 const router = express.Router();
 router.get("", memesController);

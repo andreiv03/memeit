@@ -13,14 +13,14 @@ const POST = async (req: ExtendedPostRequest, res: Response) => {
     const { email, password } = req.body;
     if (!email || !password) return res.status(400).json({ message: "All fields are required!" });
 
-    const { UsersModel } = await import("../../models");
+    const { UsersModel } = await import("api/models");
     const user = await UsersModel.findOne({ email }).select("password").lean();
     if (!user) return res.status(404).json({ message: "User not found!" });
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(400).json({ message: "Incorrect password!" });
 
-    const { signToken } = await import("../../../utils/token");
+    const { signToken } = await import("utils/token");
     const accessToken = await signToken(user._id, "10m");
     const refreshToken = await signToken(user._id, "7d");
 
