@@ -6,7 +6,7 @@ interface ExtendedPostRequest extends Request {
   }
 };
 
-const GET = async (req: Request, res: Response) => {
+const GET = async (_req: Request, res: Response) => {
   try {
     const { MemesModel } = await import("api/models");
     const memes = await MemesModel.find().sort({ createdAt: -1 }).limit(9).select("_id description").lean();

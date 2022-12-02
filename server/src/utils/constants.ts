@@ -1,7 +1,7 @@
 export const constants = {
-  CLIENT_URL: process.env.CLIENT_URL as string,
-  JWT_SECRET: process.env.JWT_SECRET as string,
-  MONGODB_URI: process.env.MONGODB_URI as string
+  CLIENT_URL: process.env["CLIENT_URL"] as string,
+  JWT_SECRET: process.env["JWT_SECRET"] as string,
+  MONGODB_URI: process.env["MONGODB_URI"] as string
 };
 
 Object.entries(constants).forEach(([key, value]) => {

@@ -29,7 +29,7 @@ const POST = async (req: ExtendedPostRequest, res: Response) => {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
       path: "/",
       sameSite: "strict",
-      secure: process.env.NODE_ENV !== "development"
+      secure: process.env["NODE_ENV"] !== "development"
     });
 
     return res.status(200).json({ accessToken });

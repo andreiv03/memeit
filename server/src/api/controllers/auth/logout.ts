@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 
-const GET = async (req: Request, res: Response) => {
+const GET = async (_req: Request, res: Response) => {
   try {
     res.clearCookie("refreshToken", {
       maxAge: -1,

@@ -12,8 +12,8 @@ server.use(cors({ credentials: true, origin: constants.CLIENT_URL }));
 server.use(express.json());
 server.use(router);
 
-if (process.env.NODE_ENV !== "production")
-  server.get("*", (req, res) => res.send("Server is running!"));
+if (process.env["NODE_ENV"] !== "production")
+  server.get("*", (_req, res) => res.send("Server is running!"));
 
 const PORT = 5000;
 server.listen(PORT, async () => {

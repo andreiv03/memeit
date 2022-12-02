@@ -13,7 +13,7 @@ export const authorization = async (req: Request, res: Response, next: NextFunct
     if (!user) return res.status(404).json({ message: "User not found!" });
     
     req.userId = user._id;
-    next();
+    return next();
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }
