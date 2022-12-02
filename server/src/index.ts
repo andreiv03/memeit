@@ -16,7 +16,9 @@ if (process.env["NODE_ENV"] !== "production")
   server.get("*", (_req, res) => res.send("Server is running!"));
 
 const PORT = 5000;
-server.listen(PORT, async () => {
-  await connectToMongoDB();
-  console.log(`Server is running on port ${PORT}`);
-}).on("error", () => process.exit(1));
+server
+  .listen(PORT, async () => {
+    await connectToMongoDB();
+    console.log(`Server is running on port ${PORT}`);
+  })
+  .on("error", () => process.exit(1));

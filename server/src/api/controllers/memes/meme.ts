@@ -3,8 +3,8 @@ import type { Request, Response } from "express";
 interface ExtendedPatchRequest extends Request {
   body: {
     description: string;
-  }
-};
+  };
+}
 
 const GET = async (req: Request, res: Response) => {
   try {
@@ -54,9 +54,13 @@ const DELETE = async (req: Request, res: Response) => {
 
 export const memeController = (req: Request, res: Response) => {
   switch (req.method) {
-    case "GET": return GET(req, res);
-    case "PATCH": return PATCH(req, res);
-    case "DELETE": return DELETE(req, res);
-    default: return res.status(404).json({ message: "API route not found!" });
+    case "GET":
+      return GET(req, res);
+    case "PATCH":
+      return PATCH(req, res);
+    case "DELETE":
+      return DELETE(req, res);
+    default:
+      return res.status(404).json({ message: "API route not found!" });
   }
 };

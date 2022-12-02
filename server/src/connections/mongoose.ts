@@ -8,7 +8,15 @@ export const connectToMongoDB = async () => {
     if (error) throw error;
   });
 
-  mongoose.connection.on("connected", () => console.log("Mongoose connection established!"));
-  mongoose.connection.on("disconnected", () => console.warn("Mongoose connection lost!"));
-  mongoose.connection.on("error", (error: mongoose.MongooseError) => console.error(`Mongoose connection error:\n${error.stack}`));
+  mongoose.connection.on("connected", () => {
+    console.log("Mongoose connection established!");
+  });
+
+  mongoose.connection.on("disconnected", () => {
+    console.warn("Mongoose connection lost!");
+  });
+
+  mongoose.connection.on("error", (error: mongoose.MongooseError) => {
+    console.error(`Mongoose connection error:\n${error.stack}`);
+  });
 };

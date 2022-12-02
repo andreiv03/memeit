@@ -18,7 +18,9 @@ const GET = async (req: Request, res: Response) => {
 
 export const refreshTokenController = (req: Request, res: Response) => {
   switch (req.method) {
-    case "GET": return GET(req, res);
-    default: return res.status(404).json({ message: "API route not found!" });
+    case "GET":
+      return GET(req, res);
+    default:
+      return res.status(404).json({ message: "API route not found!" });
   }
 };

@@ -5,8 +5,8 @@ interface ExtendedPostRequest extends Request {
   body: {
     email: string;
     password: string;
-  }
-};
+  };
+}
 
 const POST = async (req: ExtendedPostRequest, res: Response) => {
   try {
@@ -40,7 +40,9 @@ const POST = async (req: ExtendedPostRequest, res: Response) => {
 
 export const loginController = (req: Request, res: Response) => {
   switch (req.method) {
-    case "POST": return POST(req, res);
-    default: return res.status(404).json({ message: "API route not found!" });
+    case "POST":
+      return POST(req, res);
+    default:
+      return res.status(404).json({ message: "API route not found!" });
   }
 };

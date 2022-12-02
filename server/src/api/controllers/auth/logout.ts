@@ -15,7 +15,9 @@ const GET = async (_req: Request, res: Response) => {
 
 export const logoutController = (req: Request, res: Response) => {
   switch (req.method) {
-    case "GET": return GET(req, res);
-    default: return res.status(404).json({ message: "API route not found!" });
+    case "GET":
+      return GET(req, res);
+    default:
+      return res.status(404).json({ message: "API route not found!" });
   }
 };
