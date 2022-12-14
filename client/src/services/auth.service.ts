@@ -1,5 +1,9 @@
 import axios from "utils/axios";
 
+interface Response {
+  accessToken: string;
+}
+
 interface LoginFormData {
   password: string;
   username: string;
@@ -13,7 +17,7 @@ interface RegisterFormData {
 
 class AuthService {
   login(formData: LoginFormData) {
-    return axios.post<{ accessToken: string }>("/auth/login", formData);
+    return axios.post<Response>("/auth/login", formData);
   }
 
   logout() {
@@ -21,11 +25,11 @@ class AuthService {
   }
 
   refreshToken() {
-    return axios.get<{ accessToken: string }>("/auth/refresh-token");
+    return axios.get<Response>("/auth/refresh-token");
   }
 
   register(formData: RegisterFormData) {
-    return axios.post<{ accessToken: string }>("/auth/register", formData);
+    return axios.post<Response>("/auth/register", formData);
   }
 }
 

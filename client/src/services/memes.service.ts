@@ -6,6 +6,10 @@ export interface Meme {
   userId: string;
 }
 
+interface Response {
+  _id: string;
+}
+
 interface FormData {
   description: string;
 }
@@ -16,7 +20,7 @@ class MemesService {
   }
 
   createMeme(accessToken: string, formData: FormData) {
-    return axios.post<{ _id: string }>("/memes", formData, {
+    return axios.post<Response>("/memes", formData, {
       headers: { authorization: accessToken }
     });
   }
@@ -26,13 +30,13 @@ class MemesService {
   }
 
   updateMeme(accessToken: string, id: string, formData: FormData) {
-    return axios.patch<{ _id: string }>(`/memes/${id}`, formData, {
+    return axios.patch<Response>(`/memes/${id}`, formData, {
       headers: { authorization: accessToken }
     });
   }
 
   deleteMeme(accessToken: string, id: string) {
-    return axios.delete<{ _id: string }>(`/memes/${id}`, {
+    return axios.delete<Response>(`/memes/${id}`, {
       headers: { authorization: accessToken }
     });
   }

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { constants } from "utils/constants";
 
-export const connectToMongoDB = async () => {
+export const establishMongoDBConnection = async () => {
   if (!constants.MONGODB_URI) throw new Error("Database URI not found!");
 
   await mongoose.connect(constants.MONGODB_URI).catch((error: mongoose.MongooseError) => {

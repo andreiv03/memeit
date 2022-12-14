@@ -23,13 +23,12 @@
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
-    "prettier": "^2.8.0",
+    "sass": "^1.56.2",
     "typescript": "^4.9.3"
   },
   "name": "client",
   "scripts": {
     "build": "react-scripts build",
-    "format": "npx prettier -w ./src/**/*.ts ./src/**/*.tsx ./src/**/*.js ./src/**/*.jsx",
     "start": "react-scripts start"
   }
 }
