@@ -9,7 +9,9 @@ export interface User {
 class UsersService {
   getUser(accessToken: string) {
     return axios.get<User>("/users/user", {
-      headers: { authorization: accessToken }
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
     });
   }
 }

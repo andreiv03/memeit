@@ -3,6 +3,10 @@ import mongoose from "mongoose";
 export interface Meme {
   _id: string;
   description: string;
+  image: {
+    publicId: string;
+    url: string;
+  };
   userId: string;
 }
 
@@ -16,6 +20,18 @@ const schema = new mongoose.Schema<Meme>(
       required: true,
       trim: true,
       type: String
+    },
+    image: {
+      publicId: {
+        required: true,
+        trim: true,
+        type: String
+      },
+      url: {
+        required: true,
+        trim: true,
+        type: String
+      }
     },
     userId: {
       required: true,

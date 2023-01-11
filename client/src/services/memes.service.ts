@@ -1,17 +1,18 @@
+import type { FormData } from "context/memes.context";
 import axios from "utils/axios";
 
 export interface Meme {
   _id: string;
   description: string;
+  image: {
+    publicId: string;
+    url: string;
+  };
   userId: string;
 }
 
 interface Response {
   _id: string;
-}
-
-interface FormData {
-  description: string;
 }
 
 class MemesService {
@@ -21,7 +22,9 @@ class MemesService {
 
   createMeme(accessToken: string, formData: FormData) {
     return axios.post<Response>("/memes", formData, {
-      headers: { authorization: accessToken }
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
     });
   }
 
@@ -31,13 +34,17 @@ class MemesService {
 
   updateMeme(accessToken: string, id: string, formData: FormData) {
     return axios.patch<Response>(`/memes/${id}`, formData, {
-      headers: { authorization: accessToken }
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
     });
   }
 
   deleteMeme(accessToken: string, id: string) {
     return axios.delete<Response>(`/memes/${id}`, {
-      headers: { authorization: accessToken }
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
     });
   }
 }

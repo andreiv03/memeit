@@ -1,10 +1,9 @@
 import express from "express";
-import {
-  loginController,
-  logoutController,
-  refreshTokenController,
-  registerController
-} from "api/controllers/auth";
+
+import { loginController } from "api/controllers/auth/login.controller";
+import { logoutController } from "api/controllers/auth/logout.controller";
+import { refreshTokenController } from "api/controllers/auth/refresh-token.controller";
+import { registerController } from "api/controllers/auth/register.controller";
 
 const router = express.Router();
 router.post("/login", loginController);

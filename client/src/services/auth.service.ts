@@ -1,22 +1,12 @@
+import { type FormData } from "context/auth.context";
 import axios from "utils/axios";
 
 interface Response {
   accessToken: string;
 }
 
-interface LoginFormData {
-  password: string;
-  username: string;
-}
-
-interface RegisterFormData {
-  email: string;
-  password: string;
-  username: string;
-}
-
 class AuthService {
-  login(formData: LoginFormData) {
+  login(formData: FormData) {
     return axios.post<Response>("/auth/login", formData);
   }
 
@@ -28,7 +18,7 @@ class AuthService {
     return axios.get<Response>("/auth/refresh-token");
   }
 
-  register(formData: RegisterFormData) {
+  register(formData: FormData) {
     return axios.post<Response>("/auth/register", formData);
   }
 }

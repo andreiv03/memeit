@@ -3,8 +3,11 @@ import type { Request, Response } from "express";
 const GET = async (_req: Request, res: Response) => {
   try {
     res.clearCookie("refreshToken", {
+      httpOnly: true,
+      path: "/",
       maxAge: -1,
-      path: "/"
+      sameSite: "strict",
+      secure: process.env["NODE_ENV"] !== "development"
     });
 
     return res.status(200).end();

@@ -3,18 +3,19 @@ import type { Request, Response } from "express";
 
 interface ExtendedPostRequest extends Request {
   body: {
-    email: string;
     password: string;
+    username: string;
   };
 }
 
 const POST = async (req: ExtendedPostRequest, res: Response) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) return res.status(400).json({ message: "All fields are required!" });
+    const { password, username } = req.body;
+    if (!password || !username)
+      return res.status(400).json({ message: "All fields are required!" });
 
-    const { UsersModel } = await import("api/models");
-    const user = await UsersModel.findOne({ email }).select("password").lean();
+    const { UsersModel } = await import("api/models/users.model");
+    const user = await UsersModel.findOne({ username }).select("password").lean();
     if (!user) return res.status(404).json({ message: "User not found!" });
 
     const match = await bcrypt.compare(password, user.password);

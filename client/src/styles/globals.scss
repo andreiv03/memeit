@@ -1,0 +1,51 @@
+:root {
+  --foreground: #252f65;
+  --background: #ffffff;
+
+  --accent-one: #6f3096;
+  --accent-two: #06114f;
+
+  --header-height: 66px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+button,
+input {
+  color: var(--foreground);
+  font-family: "Merriweather", sans-serif;
+  font-size: 16px;
+}
+
+button,
+input {
+  background: none;
+  border: none;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+body {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// Merriweather
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap");
+
+// Roboto
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");

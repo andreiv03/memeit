@@ -15,7 +15,7 @@ const POST = async (req: ExtendedPostRequest, res: Response) => {
     if (!email || !password || !username)
       return res.status(400).json({ message: "All fields are required!" });
 
-    const { UsersModel } = await import("api/models");
+    const { UsersModel } = await import("api/models/users.model");
     const isEmailRegistered = await UsersModel.exists({ email });
     if (isEmailRegistered)
       return res.status(400).json({ message: "Email address already registered!" });

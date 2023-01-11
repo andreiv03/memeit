@@ -1,0 +1,129 @@
+.animated_component {
+  position: fixed;
+  top: var(--header-height);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  animation: menu_out_animation 200ms ease forwards;
+
+  &.mounted {
+    animation: menu_in_animation 200ms ease forwards;
+
+    .wrapper {
+      animation: wrapper_in_animation 200ms ease forwards;
+    }
+  }
+
+  .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--accent-one);
+  }
+
+  .wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(375px, 100%);
+    padding: 1rem;
+    animation: wrapper_out_animation 200ms ease forwards;
+
+    .content {
+      padding: 2rem;
+      border-radius: 0.5rem;
+      background-color: var(--background);
+
+      h3 {
+        color: var(--accent-one);
+        font-size: 1.75rem;
+        text-align: center;
+      }
+
+      form {
+        margin-top: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .container {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+
+          label {
+            font-size: 0.875rem;
+            font-weight: 600;
+          }
+
+          input {
+            height: 2.5rem;
+            padding: 0 0.75rem;
+            border: 2px solid var(--foreground);
+            border-radius: 0.25rem;
+            background-color: var(--background);
+            font-size: 0.875rem;
+          }
+        }
+
+        button {
+          height: 2.5rem;
+          border-radius: 0.25rem;
+          background-color: var(--accent-one);
+          color: var(--background);
+          font-size: 0.875rem;
+          transition: 200ms ease;
+
+          &:hover {
+            background-color: var(--accent-two);
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes menu_in_animation {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes menu_out_animation {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes wrapper_in_animation {
+  0% {
+    transform: translate(-50%, -75%);
+  }
+
+  100% {
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes wrapper_out_animation {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+
+  100% {
+    transform: translate(-50%, -25%);
+  }
+}

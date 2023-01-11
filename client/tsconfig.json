@@ -23,13 +23,6 @@
     "baseUrl": "./src",
     "module": "ESNext",
     "moduleResolution": "Node",
-    "paths": {
-      "components/*": ["components/*"],
-      "context/*": ["context/*"],
-      "pages/*": ["pages/*"],
-      "services/*": ["services/*"],
-      "utils/*": ["utils/*"]
-    },
     "resolveJsonModule": true,
     "rootDir": "./src",
     "typeRoots": ["./src/types", "./node_modules/@types"],

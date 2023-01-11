@@ -25,7 +25,6 @@
     "moduleResolution": "Node",
     "paths": {
       "api/*": ["api/*"],
-      "connections/*": ["connections/*"],
       "utils/*": ["utils/*"]
     },
     "resolveJsonModule": true,
