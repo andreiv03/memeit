@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-import { type FormData, useAuthContext } from "context/auth.context";
+import { type AuthFormData, useAuthContext } from "context/auth.context";
 import { useLayoutContext } from "context/layout.context";
 
 import styles from "styles/components/menu.module.scss";
@@ -22,8 +22,8 @@ const Menu: React.FC = () => {
       if (!passwordInputRef.current.value) return alert("Password field is required!");
       if (!usernameInputRef.current.value) return alert("Username field is required!");
 
-      const formData: FormData = {
-        email: emailInputRef.current.value,
+      const formData: AuthFormData = {
+        email: emailInputRef.current ? emailInputRef.current.value : "",
         password: passwordInputRef.current.value,
         username: usernameInputRef.current.value
       };
@@ -51,6 +51,7 @@ const Menu: React.FC = () => {
             <div className={styles["container"]}>
               <label htmlFor="username">Username</label>
               <input
+                autoComplete="username"
                 id="username"
                 placeholder="Username"
                 ref={usernameInputRef}
@@ -62,6 +63,7 @@ const Menu: React.FC = () => {
               <div className={styles["container"]}>
                 <label htmlFor="email">Email</label>
                 <input
+                  autoComplete="email"
                   id="email"
                   placeholder="Email"
                   ref={emailInputRef}
@@ -73,6 +75,7 @@ const Menu: React.FC = () => {
             <div className={styles["container"]}>
               <label htmlFor="password">Password</label>
               <input
+                autoComplete="current-password"
                 id="password"
                 placeholder="Password"
                 ref={passwordInputRef}

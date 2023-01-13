@@ -3,49 +3,49 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useLayoutContext } from "context/layout.context";
 import type { User } from "services/users.service";
 
-interface Context {
+interface AuthContext {
   callback: boolean;
   setCallback: React.Dispatch<React.SetStateAction<boolean>>;
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
-  handleAuth: (formData: FormData) => void;
+  handleAuth: (formData: AuthFormData) => void;
   handleLogout: () => void;
 }
 
-export interface FormData {
+interface AuthContextProviderProps {
+  children: JSX.Element | JSX.Element[];
+}
+
+export interface AuthFormData {
   email: string;
   password: string;
   username: string;
 }
 
-export const userInitialState: User = {
+const userInitialState: User = {
   _id: "",
   email: "",
   username: ""
 };
 
-export const AuthContext = createContext<Context>({} as Context);
+const AuthContext = createContext<AuthContext>({} as AuthContext);
 
 export const useAuthContext = () => {
-  const hookName = "useAuthContext";
-  const providerName = "AuthContextProvider";
-
   const authContext = useContext(AuthContext);
-  if (!authContext) throw new Error(`${hookName} hook must be inside ${providerName}!`);
-
+  if (!authContext) throw new Error("Something went wrong with the React Context API!");
   return authContext;
 };
 
-export const AuthContextProvider: React.FC<{ children: JSX.Element }> = ({ children }) => {
+export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
   const [callback, setCallback] = useState(false);
   const [token, setToken] = useState("");
   const [user, setUser] = useState(userInitialState);
 
   const layoutContext = useLayoutContext();
 
-  const handleAuth = async (formData: FormData) => {
+  const handleAuth = async (formData: AuthFormData) => {
     const { authService } = await import("services/auth.service");
 
     if (layoutContext.menuType === "LOGIN") {
@@ -107,7 +107,7 @@ export const AuthContextProvider: React.FC<{ children: JSX.Element }> = ({ child
     getUser();
   }, [callback, token]);
 
-  const state: Context = {
+  const state: AuthContext = {
     callback,
     setCallback,
     token,

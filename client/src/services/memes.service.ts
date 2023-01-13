@@ -1,4 +1,4 @@
-import type { FormData } from "context/memes.context";
+import type { MemesFormData } from "context/memes.context";
 import axios from "utils/axios";
 
 export interface Meme {
@@ -20,7 +20,7 @@ class MemesService {
     return axios.get<Meme[]>("/memes");
   }
 
-  createMeme(accessToken: string, formData: FormData) {
+  createMeme(accessToken: string, formData: MemesFormData) {
     return axios.post<Response>("/memes", formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -32,7 +32,7 @@ class MemesService {
     return axios.get<Meme>(`/memes/${id}`);
   }
 
-  updateMeme(accessToken: string, id: string, formData: FormData) {
+  updateMeme(accessToken: string, id: string, formData: MemesFormData) {
     return axios.patch<Response>(`/memes/${id}`, formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`

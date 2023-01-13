@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 
 import { AuthContextProvider } from "context/auth.context";
 import { LayoutContextProvider } from "context/layout.context";
+import { MemesContextProvider } from "context/memes.context";
 
 import "styles/globals.scss";
 import Footer from "components/footer.component";
@@ -15,12 +16,12 @@ root.render(
   <React.StrictMode>
     <LayoutContextProvider>
       <AuthContextProvider>
-        <>
+        <MemesContextProvider>
           <Header />
           <Menu />
           <Home />
           <Footer />
-        </>
+        </MemesContextProvider>
       </AuthContextProvider>
     </LayoutContextProvider>
   </React.StrictMode>

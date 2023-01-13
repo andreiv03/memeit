@@ -1,41 +1,53 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { useAuthContext } from "context/auth.context";
-import { type FormData, useMemesContext } from "context/memes.context";
+import { useLayoutContext } from "context/layout.context";
+import { useMemesContext, type MemesFormData } from "context/memes.context";
 
 import styles from "styles/pages/home.module.scss";
 
 const Home: React.FC = () => {
   const descriptionInputRef = useRef({} as HTMLInputElement);
-  const fileInputRef = useRef({} as HTMLInputElement);
+  const [file, setFile] = useState<File>({} as File);
+  const [fileInput, setFileInput] = useState("");
 
   const authContext = useAuthContext();
+  const layoutContext = useLayoutContext();
   const memesContext = useMemesContext();
+
+  const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files || !event.target.files[0]) return setFile({} as File), setFileInput("");
+    setFile(event.target.files[0]);
+    setFileInput(event.target.value);
+  };
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
       if (!descriptionInputRef.current.value) return alert("Description field is required!");
-      if (!fileInputRef.current.files || !fileInputRef.current.files[0])
-        return alert("File field is required!");
+      if (!file || !fileInput) return alert("File field is required!");
 
       const reader = new FileReader();
-      reader.readAsDataURL(fileInputRef.current.files[0]);
+      reader.readAsDataURL(file);
       reader.onloadend = async () => {
-        const formData: FormData = {
+        layoutContext.Animation.handleStartAnimation();
+
+        const formData: MemesFormData = {
           description: descriptionInputRef.current.value,
           image: reader.result ? reader.result : ""
         };
-        console.log(formData);
+
         const { memesService } = await import("services/memes.service");
         await memesService.createMeme(authContext.token, formData);
 
         descriptionInputRef.current.value = "";
-        fileInputRef.current.files = null;
-        fileInputRef.current.value = "";
+        setFile({} as File);
+        setFileInput("");
+        memesContext.setCallback(!memesContext.callback);
       };
     } catch (error: any) {
+      if (layoutContext.Animation.isMounted) layoutContext.Animation.handleStopAnimation();
       alert(error.response.data.message);
     }
   };
@@ -56,7 +68,7 @@ const Home: React.FC = () => {
 
         <div className={styles["image"]}>
           <img
-            alt=""
+            alt="Why so salty?"
             src="/assets/hero-section-image.png"
           />
         </div>
@@ -88,12 +100,21 @@ const Home: React.FC = () => {
               <label htmlFor="meme">Meme {"(jpg / png / gif)"}</label>
               <input
                 id="meme"
-                ref={fileInputRef}
+                onChange={handleFileInputChange}
                 type="file"
+                value={fileInput}
               />
+              <label htmlFor="meme">
+                <span>{file.name ? file.name : "Upload a meme"}</span>
+              </label>
             </div>
 
-            <button type="submit">Send</button>
+            <button
+              disabled={authContext.token ? false : true}
+              type="submit"
+            >
+              Send
+            </button>
           </form>
         </div>
       </div>
@@ -101,17 +122,19 @@ const Home: React.FC = () => {
       <div className={styles["memes"]}>
         <h2>Most viewed</h2>
         {memesContext.memes && memesContext.memes.length ? (
-          memesContext.memes.map((meme) => (
-            <div
-              className={styles["meme"]}
-              key={meme._id}
-            >
-              <img
-                alt={meme.description}
-                src={meme.image.url}
-              />
-            </div>
-          ))
+          <div className={styles["wrapper"]}>
+            {memesContext.memes.map((meme) => (
+              <div
+                className={styles["meme"]}
+                key={meme._id}
+              >
+                <img
+                  alt={meme.description}
+                  src={meme.image.url}
+                />
+              </div>
+            ))}
+          </div>
         ) : (
           <span>No memes found!</span>
         )}
