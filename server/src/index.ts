@@ -7,7 +7,7 @@ import { establishMongoDBConnection } from "utils/mongodb";
 
 const URLS = {
   DEVELOPMENT: "http://localhost:3000",
-  PRODUCTION: ""
+  PRODUCTION: "https://memeit-client.vercel.app"
 };
 
 const CLIENT_URL = process.env["NODE_ENV"] === "production" ? URLS.PRODUCTION : URLS.DEVELOPMENT;
