@@ -7,7 +7,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^8.8.3",
+    "mongoose": "^8.9.5",
     "tsconfig-paths": "^4.1.1"
   },
   "devDependencies": {
