@@ -22,28 +22,26 @@
     "useUnknownInCatchVariables": true,
 
     "allowArbitraryExtensions": false,
-    "allowImportingTsExtensions": false,
+    "allowImportingTsExtensions": true,
     "allowUmdGlobalAccess": false,
     "baseUrl": "src",
+    "customConditions": [],
     "module": "esnext",
     "moduleResolution": "bundler",
+    "moduleSuffixes": [],
     "noResolve": false,
     "noUncheckedSideEffectImports": true,
     "paths": {
       "@/*": ["./*"],
-      "@/controllers/*": ["api/controllers/*"],
-      "@/middleware/*": ["api/middleware/*"],
-      "@/models/*": ["api/models/*"],
-      "@/routes/*": ["api/routes/*"],
-      "@/services/*": ["api/services/*"]
+      "@/app": ["App"]
     },
     "resolveJsonModule": true,
     "resolvePackageJsonExports": true,
     "resolvePackageJsonImports": true,
     "rewriteRelativeImportExtensions": true,
     "rootDir": "src",
-    "typeRoots": ["node_modules/@types", "src/types"],
-    "types": [],
+    "typeRoots": ["src/types", "node_modules/@types"],
+    "types": ["node"],
 
     "declaration": false,
     "declarationMap": false,
@@ -62,8 +60,8 @@
     "sourceMap": false,
     "stripInternal": false,
 
-    "allowJs": false,
-    "checkJs": false,
+    "allowJs": true,
+    "checkJs": true,
     "maxNodeModuleJsDepth": 0,
 
     "disableSizeLimit": false,
@@ -82,15 +80,17 @@
     "suppressExcessPropertyErrors": false,
     "suppressImplicitAnyIndexErrors": false,
 
-    "lib": ["esnext"],
+    "jsx": "preserve",
+    "jsxImportSource": "react",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "moduleDetection": "force",
     "noLib": false,
     "target": "esnext",
     "useDefineForClassFields": true,
 
     "composite": false,
-    "incremental": false,
-    "tsBuildInfoFile": "node_modules/.tsbuildinfo",
+    "incremental": true,
+    "tsBuildInfoFile": "node_modules/.tmp/tsconfig.app.tsbuildinfo",
 
     "noErrorTruncation": true,
     "preserveWatchOutput": true,

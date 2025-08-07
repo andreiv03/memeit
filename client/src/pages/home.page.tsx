@@ -1,56 +1,60 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 
-import { useAuthContext } from "context/auth.context";
-import { useLayoutContext } from "context/layout.context";
-import { useMemesContext, type MemesFormData } from "context/memes.context";
+import { AuthContext } from "@/contexts/auth.context";
+import { MemesContext } from "@/contexts/memes.context";
+import { useContextHook } from "@/hooks/use-context-hook";
+import { asyncHandler } from "@/utils/async-handler";
 
-import styles from "styles/pages/home.module.scss";
+import styles from "@/styles/pages/home.module.scss";
 
-const Home: React.FC = () => {
-  const descriptionInputRef = useRef({} as HTMLInputElement);
+export default function Home() {
+  const { user } = useContextHook(AuthContext);
+  const { state, uploadMeme } = useContextHook(MemesContext);
+
+  const [description, setDescription] = useState("");
   const [file, setFile] = useState<File>({} as File);
-  const [fileInput, setFileInput] = useState("");
-
-  const authContext = useAuthContext();
-  const layoutContext = useLayoutContext();
-  const memesContext = useMemesContext();
+  const [fileData, setFileData] = useState("");
 
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files || !event.target.files[0]) return setFile({} as File), setFileInput("");
+    if (!event.target.files || !event.target.files[0]) {
+      return setFile({} as File), setFileData("");
+    }
+
     setFile(event.target.files[0]);
-    setFileInput(event.target.value);
+    setFileData(event.target.value);
   };
 
-  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submitForm = asyncHandler(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      if (!descriptionInputRef.current.value) return alert("Description field is required!");
-      if (!file || !fileInput) return alert("File field is required!");
-
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = async () => {
-        layoutContext.Animation.handleStartAnimation();
-
-        const formData: MemesFormData = {
-          description: descriptionInputRef.current.value,
-          image: reader.result ? reader.result : ""
-        };
-
-        const { memesService } = await import("services/memes.service");
-        await memesService.createMeme(authContext.token, formData);
-
-        descriptionInputRef.current.value = "";
-        setFile({} as File);
-        setFileInput("");
-        memesContext.setCallback(!memesContext.callback);
-      };
-    } catch (error: any) {
-      if (layoutContext.Animation.isMounted) layoutContext.Animation.handleStopAnimation();
-      alert(error.response.data.message);
+    if (!description) {
+      return alert("Description field is required");
     }
-  };
+
+    if (!file || !fileData) {
+      return alert("File field is required");
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = async () => {
+      if (!user?._id) {
+        return alert("You must be logged in to upload a meme");
+      }
+
+      const formData = {
+        userId: user._id,
+        description,
+        image: reader.result ? (reader.result as string) : "",
+      };
+
+      await uploadMeme(formData);
+
+      setDescription("");
+      setFile({} as File);
+      setFileData("");
+    };
+  });
 
   return (
     <div className={styles["page"]}>
@@ -67,17 +71,11 @@ const Home: React.FC = () => {
         </div>
 
         <div className={styles["image"]}>
-          <img
-            alt="Why so salty?"
-            src="/assets/hero-section-image.png"
-          />
+          <img alt="Why so salty?" src="/assets/hero-section-image.png" />
         </div>
       </div>
 
-      <div
-        className={styles["upload"]}
-        id="upload"
-      >
+      <div className={styles["upload"]} id="upload">
         <div className={styles["background"]} />
         <div className={styles["content"]}>
           <div className={styles["text"]}>
@@ -85,14 +83,16 @@ const Home: React.FC = () => {
             <p>Send us an email and maybe you'll be lucky enough to laugh when we see your meme.</p>
           </div>
 
-          <form onSubmit={handleFormSubmit}>
+          <form onSubmit={submitForm}>
             <div className={styles["container"]}>
               <label htmlFor="description">Description</label>
               <input
                 id="description"
+                name="description"
                 placeholder="Description"
-                ref={descriptionInputRef}
+                onChange={(event) => setDescription(event.target.value)}
                 type="text"
+                value={description}
               />
             </div>
 
@@ -100,19 +100,17 @@ const Home: React.FC = () => {
               <label htmlFor="meme">Meme {"(jpg / png / gif)"}</label>
               <input
                 id="meme"
+                name="meme"
                 onChange={handleFileInputChange}
                 type="file"
-                value={fileInput}
+                value={fileData}
               />
               <label htmlFor="meme">
                 <span>{file.name ? file.name : "Upload a meme"}</span>
               </label>
             </div>
 
-            <button
-              disabled={authContext.token ? false : true}
-              type="submit"
-            >
+            <button disabled={user?._id ? false : true} type="submit">
               Send
             </button>
           </form>
@@ -121,17 +119,11 @@ const Home: React.FC = () => {
 
       <div className={styles["memes"]}>
         <h2>Most viewed</h2>
-        {memesContext.memes && memesContext.memes.length ? (
+        {state.memes.length ? (
           <div className={styles["wrapper"]}>
-            {memesContext.memes.map((meme) => (
-              <div
-                className={styles["meme"]}
-                key={meme._id}
-              >
-                <img
-                  alt={meme.description}
-                  src={meme.image.url}
-                />
+            {state.memes.map((meme) => (
+              <div className={styles["meme"]} key={meme._id}>
+                <img alt={meme.description} src={meme.image.url} />
               </div>
             ))}
           </div>
@@ -141,6 +133,4 @@ const Home: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default Home;
+}

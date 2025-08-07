@@ -1,19 +1,10 @@
-.animated_component {
+.menu {
   position: fixed;
   top: var(--header-height);
   right: 0;
   bottom: 0;
   left: 0;
   z-index: 10;
-  animation: menu_out_animation 200ms ease forwards;
-
-  &.mounted {
-    animation: menu_in_animation 200ms ease forwards;
-
-    .wrapper {
-      animation: wrapper_in_animation 200ms ease forwards;
-    }
-  }
 
   .overlay {
     position: absolute;
@@ -74,6 +65,7 @@
           background-color: var(--accent-one);
           color: var(--background);
           font-size: 0.875rem;
+          cursor: pointer;
           transition: 200ms ease;
 
           &:hover {
@@ -85,46 +77,12 @@
   }
 }
 
-@keyframes menu_in_animation {
-  0% {
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  100% {
-    opacity: 1;
-    visibility: visible;
-  }
-}
-
-@keyframes menu_out_animation {
-  0% {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  100% {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
-@keyframes wrapper_in_animation {
+@keyframes wrapper_out_animation {
   0% {
     transform: translate(-50%, -75%);
   }
 
   100% {
     transform: translate(-50%, -50%);
-  }
-}
-
-@keyframes wrapper_out_animation {
-  0% {
-    transform: translate(-50%, -50%);
-  }
-
-  100% {
-    transform: translate(-50%, -25%);
   }
 }

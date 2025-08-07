@@ -1,9 +1,11 @@
-import express from "express";
+import { Router } from "express";
 
-import { userController } from "api/controllers/users/user.controller";
-import { authorization } from "api/middleware/authorization.middleware";
+import { UserController } from "@/controllers/user.controller";
+import { authorization } from "@/middleware/authorization";
 
-const router = express.Router();
-router.get("/user", authorization, userController);
+const router = Router();
 
-export { router as usersRouter };
+router.use(authorization);
+router.get("/user", UserController.getUserById);
+
+export default router;

@@ -1,14 +1,14 @@
-import express from "express";
+import { Router } from "express";
 
-import { memeController } from "api/controllers/memes/meme.controller";
-import { memesController } from "api/controllers/memes/memes.controller";
-import { authorization } from "api/middleware/authorization.middleware";
+import { MemeController } from "@/controllers/meme.controller";
+import { authorization } from "@/middleware/authorization";
 
-const router = express.Router();
-router.get("", memesController);
-router.post("", authorization, memesController);
-router.get("/:id", memeController);
-router.patch("/:id", authorization, memeController);
-router.delete("/:id", authorization, memeController);
+const router = Router();
 
-export { router as memesRouter };
+router.use(authorization);
+router.get("", MemeController.getMemes);
+router.post("", authorization, MemeController.uploadMeme);
+router.get("/:id", MemeController.getMemeById);
+router.delete("/:id", authorization, MemeController.deleteMemeById);
+
+export default router;

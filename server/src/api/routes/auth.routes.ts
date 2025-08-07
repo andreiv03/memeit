@@ -1,14 +1,11 @@
-import express from "express";
+import { Router } from "express";
+import { AuthController } from "@/controllers/auth.controller";
 
-import { loginController } from "api/controllers/auth/login.controller";
-import { logoutController } from "api/controllers/auth/logout.controller";
-import { refreshTokenController } from "api/controllers/auth/refresh-token.controller";
-import { registerController } from "api/controllers/auth/register.controller";
+const router = Router();
 
-const router = express.Router();
-router.post("/login", loginController);
-router.get("/logout", logoutController);
-router.get("/refresh-token", refreshTokenController);
-router.post("/register", registerController);
+router.post("/login", AuthController.login);
+router.post("/register", AuthController.register);
+router.post("/logout", AuthController.logout);
+router.post("/refresh-token", AuthController.refreshToken);
 
-export { router as authRouter };
+export default router;
